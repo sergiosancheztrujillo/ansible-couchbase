@@ -1,0 +1,27 @@
+---
+# tasks file for couchbase
+
+- name: download Couchbase meta-package
+  get_url:
+    url: http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-4-amd64.deb
+    dest: ~/.
+
+- name: Install couch base metapackage
+  apt:
+    deb: ./couchbase-release-1.0-4-amd64.deb
+    state: present
+
+- name: Update packages
+  apt:
+    update_cache: yes
+
+- name: Installing couchbase package
+  apt:
+    pkg: couchbase-server
+    state: present
+
+- name: Initialize the cluster and add the nodes to the cluster
+  shell: /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091  –cluster-init-username=${admin_user} –cluster-init-password=${admin_password} –cluster-init-port=8091 –cluster-init-ramsize=${cluster_ram_quota}
+  when: "if {{ ansible_hostname }} in {{ couchbase-main }}"
+
+

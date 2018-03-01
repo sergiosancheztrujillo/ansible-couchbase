@@ -1,0 +1,6 @@
+---
+# tasks file for basic
+
+- name: pinging servers
+  ping:
+

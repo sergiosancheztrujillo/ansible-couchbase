@@ -1,2 +1,10 @@
 ---
-- host:
+- hosts: all
+  become: yes
+  become_method: sudo
+  remote_user: sergio
+  vars_files:
+    - vars.yml
+  roles:
+    - basic
+    - couchbase
